@@ -46,11 +46,11 @@ public final class JavaWordCount {
 
         JavaPairRDD<String, Integer> wordToOneMap = words.mapToPair(s -> new Tuple2<>(s, 1));
 
-        JavaPairRDD<String, Integer> counts = wordToOneMap.reduceByKey((i1, i2) -> i1 + i2);
+        JavaPairRDD<String, Integer> wordToCountMap = wordToOneMap.reduceByKey((i1, i2) -> i1 + i2);
 
-        counts.saveAsTextFile("CountData");
+        wordToCountMap.saveAsTextFile("CountData");
 
-        List<Tuple2<String, Integer>> output = counts.collect();
+        List<Tuple2<String, Integer>> output = wordToCountMap.collect();
 
         //output.saveAsTextFile("output.txt");
         for (Tuple2<?,?> tuple : output) {
